@@ -9,11 +9,12 @@ ALERT cpu_high
     summary = "cpu high",
     description = "job {{$labels.job}} cpu high."
   }
-ALERT test_high
-  IF test_metric > 1000
+
+ALERT nginx_connection
+  IF nginx_connections_current {state="active"} > 5
   FOR 10s
-  LABELS { severity = "page", service = "node" }
+  LABELS { severity = "page", service = "nginx" }
   ANNOTATIONS {
     summary = "test high",
-    description = "job {{$labels.job}} cpu high."
+    description = "job {{$labels.job}} on {{$labels.instance}} connection high."
   }

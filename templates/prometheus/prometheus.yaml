@@ -27,3 +27,13 @@ scrape_configs:
       - targets: ['10.211.55.43:9091']
         labels:
           group: 'production'
+
+  - job_name: 'nginx-exporter'
+
+    # Override the global default and scrape targets from this job every 5 seconds.
+    scrape_interval: 5s
+
+    target_groups:
+      - targets: ['10.211.55.43:9113']
+        labels:
+          group: 'nginx'
