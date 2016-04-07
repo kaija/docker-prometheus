@@ -1,0 +1,19 @@
+## alert.rules ##
+
+# Alert for any instance that is unreachable for >5 minutes.
+ALERT cpu_high
+  IF node_cpu{job="node-exporter",mode="user"} > 1000
+  FOR 10s
+  LABELS { severity = "page", service = "node" }
+  ANNOTATIONS {
+    summary = "cpu high",
+    description = "job {{$labels.job}} cpu high."
+  }
+ALERT test_high
+  IF test_metric > 1000
+  FOR 10s
+  LABELS { severity = "page", service = "node" }
+  ANNOTATIONS {
+    summary = "test high",
+    description = "job {{$labels.job}} cpu high."
+  }

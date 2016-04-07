@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  labels:
+    name: prometheus
+  name: prometheus
+spec:
+  replicas: 2
+  selector:
+    name: prometheus
+  template:
+    metadata:
+      labels:
+        name: prometheus
+    spec:
+      containers:
+      - image: prom/pushgateway
+        name: prometheus
+        ports:
+        - containerPort: 9090
+          name: prometheus-http
+          protocol: TCP
+      - image: prom/pushgateway
+        name: pushgateway
+        ports:
+        - containerPort: 9091
+          name: pushgateway
+      - image: prom/alertmanager
+        name: alertmanager
+        ports:
+        - containerPort: 9093
+          name: alertmanager
