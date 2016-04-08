@@ -1,20 +1,20 @@
 ## alert.rules ##
 
 # Alert for any instance that is unreachable for >5 minutes.
-ALERT cpu_high
-  IF node_cpu{job="node-exporter",mode="user"} > 1000
-  FOR 10s
-  LABELS { severity = "page", service = "node" }
+ALERT NGINX_FD
+  IF process_open_fds > 5
+  FOR 5s
+  LABELS { severity = "page", service = "nginx-container", svc="nginx-container"}
   ANNOTATIONS {
-    summary = "cpu high",
-    description = "job {{$labels.job}} cpu high."
+    summary = "fd high",
+    description = "{\"job\":\"{{$labels.job}}\",\"instance\": \"{{$labels.instance}}\",\"value\":\"{{$value}}\"}"
   }
 
-ALERT nginx_connection
+ALERT NGINX_CONNECTION
   IF nginx_connections_current {state="active"} > 5
-  FOR 10s
-  LABELS { severity = "page", service = "nginx" }
+  FOR 5s
+  LABELS { severity = "page", service = "nginx-container", svc="nginx-container" }
   ANNOTATIONS {
     summary = "test high",
-    description = "job {{$labels.job}} on {{$labels.instance}} connection high."
+    description = "{\"job\":\"{{$labels.job}}\",\"instance\": \"{{$labels.instance}}\",\"value\":\"{{$value}}\"}"
   }
