@@ -1,7 +1,7 @@
 all: image
 
 image:
-	echo "nothing"
+	docker build -t kaija/prometheus .
 
 stop_all: stop_prometheus stop_alertmanager stop_pushgateway
 
