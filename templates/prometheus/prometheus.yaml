@@ -4,14 +4,11 @@ global:
   external_labels:
     monitor: 'core'
 scrape_configs:
-- job_name: 'prometheus'
-  scrape_interval: 5s
-  scrape_timeout: 10s
-  target_groups:
-  - targets: ['127.0.0.1:9090']
 - job_name: 'k8s-cluster'
-  scrape_interval: 5s
+  scrape_interval: 10s
   scrape_timeout: 10s
+  tls_config:
+    insecure_skip_verify: true
   kubernetes_sd_configs:
   - api_servers:
     - 'https://kubernetes.default.svc'
@@ -39,6 +36,8 @@ scrape_configs:
 # service then set this appropriately.
 #
 - job_name: 'kubernetes-service-endpoints'
+  tls_config:
+    insecure_skip_verify: true
   kubernetes_sd_configs:
   - api_servers:
     - 'https://kubernetes.default.svc'
